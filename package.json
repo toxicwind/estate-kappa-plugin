@@ -1,0 +1,13 @@
+{
+  "name": "estate-kappa-plugin",
+  "version": "1.0.0",
+  "description": "Native estate plugins for kappa",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "bun test */*.test.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
