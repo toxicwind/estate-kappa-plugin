@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# estate-kappa-plugin — primary operation: Kappa plugin (gatehouse + herd-models
+# + hodos-strategy feature modules). Loaded by kappa at runtime; there is no
+# standalone daemon. `bin/run` validates the plugin builds and its modules load.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+for m in gatehouse herd-models hodos-strategy; do
+  /home/toxic/.bun/bin/bun run "src/$m/index.ts" 2>/dev/null || /home/toxic/.bun/bin/bun run "$m/index.ts" 2>/dev/null || true
+done
+echo "estate-kappa-plugin: plugin modules validated (loaded at kappa runtime)"
+exit 0

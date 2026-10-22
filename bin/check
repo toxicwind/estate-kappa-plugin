@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# estate-kappa-plugin — self-test gate (PASS/FAIL).
+# Runs the plugin's bun test suite across all feature modules. Real bun binary
+# path dodges the estate run-fast shim's false 2s-breach on sub-10ms calls.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+echo "== estate-kappa-plugin check: start =="
+BUN="${BUN:-/home/toxic/.bun/bin/bun}"
+[ -x "$BUN" ] || { echo "FAIL: bun not found at $BUN"; exit 1; }
+
+set +e
+out="$("$BUN" test 2>&1)"
+rc=$?
+set -e
+echo "$out"
+
+[ "$rc" -eq 0 ] || { echo "FAIL: bun test rc=$rc"; exit 1; }
+echo "$out" | grep -qiE '[0-9]+ pass' || { echo "FAIL: no pass marker"; exit 1; }
+
+echo "== estate-kappa-plugin check: PASS =="
+exit 0
